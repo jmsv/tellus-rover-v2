@@ -23,6 +23,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RemoteControlActivity"
+            android:label="@string/title_activity_remote_control"
+            android:parentActivityName=".ConnectActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.jamesvickery.tellusroverremote.ConnectActivity" />
+        </activity>
     </application>
 
 </manifest>

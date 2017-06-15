@@ -3,6 +3,7 @@ package net.jamesvickery.tellusroverremote;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.AsyncTask;
@@ -211,7 +212,10 @@ public class ConnectActivity extends AppCompatActivity {
                 }
             }
 
-            // TODO: register the new account here.
+
+            Intent startRemoteControl = new Intent(getApplicationContext(), RemoteControlActivity.class);
+            startActivity(startRemoteControl);
+
             return true;
         }
 
