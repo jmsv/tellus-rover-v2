@@ -24,6 +24,7 @@ public class RemoteControlActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         Intent myIntent = new Intent(getApplicationContext(), ConnectActivity.class);
         startActivityForResult(myIntent, 0);
+        finish();
         return true;
     }
 

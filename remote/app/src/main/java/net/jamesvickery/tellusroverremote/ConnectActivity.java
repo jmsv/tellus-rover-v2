@@ -3,6 +3,8 @@ package net.jamesvickery.tellusroverremote;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
@@ -10,6 +12,7 @@ import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -212,7 +215,6 @@ public class ConnectActivity extends AppCompatActivity {
                 }
             }
 
-
             Intent startRemoteControl = new Intent(getApplicationContext(), RemoteControlActivity.class);
             startActivity(startRemoteControl);
 
@@ -239,4 +241,3 @@ public class ConnectActivity extends AppCompatActivity {
         }
     }
 }
-
