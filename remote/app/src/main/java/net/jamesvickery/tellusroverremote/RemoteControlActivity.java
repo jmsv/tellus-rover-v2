@@ -21,11 +21,21 @@ public class RemoteControlActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean returnToLoginActivity(){
         Intent myIntent = new Intent(getApplicationContext(), ConnectActivity.class);
         startActivityForResult(myIntent, 0);
         finish();
         return true;
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        return returnToLoginActivity();
+    }
+
+    @Override
+    public void onBackPressed() {
+        returnToLoginActivity();
     }
 
 }
