@@ -23,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class ConnectActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private View mRememberPasswordView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,22 @@ public class ConnectActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        mRememberPasswordView = findViewById(R.id.checkBoxRememberPassword);
+
+        loadDefaults();
+    }
+
+    private void loadDefaults(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String ip = preferences.getString("ip", "");
+        mIPView.setText(ip);
+        boolean rememberPassword = preferences.getBoolean("rememberPassword", false);
+        if (rememberPassword){
+            CheckBox checkBox = (CheckBox)mLoginFormView.findViewById(R.id.checkBoxRememberPassword);
+            checkBox.setChecked(true);
+            String password = preferences.getString("password", "");
+            mPasswordView.setText(password);
+        }
     }
 
 
@@ -137,9 +155,6 @@ public class ConnectActivity extends AppCompatActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -161,8 +176,6 @@ public class ConnectActivity extends AppCompatActivity {
                 }
             });
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
@@ -181,10 +194,18 @@ public class ConnectActivity extends AppCompatActivity {
             mIP = ip;
             mPassword = password;
 
+            final CheckBox checkBox = (CheckBox) findViewById(R.id.checkBoxRememberPassword);
+
             // https://stackoverflow.com/a/11027631/5127934
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("IP", mIP);
+            editor.putString("ip", mIP);
+            if (checkBox.isChecked()) {
+                editor.putBoolean("rememberPassword", true);
+                editor.putString("password", mPassword);
+            } else {
+                editor.putBoolean("rememberPassword", false);
+            }
             editor.apply();
         }
 
@@ -193,7 +214,7 @@ public class ConnectActivity extends AppCompatActivity {
             // TODO: If password is wrong, return false. Otherwise, start Remote Control
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(1000); // Replace with POST call
             } catch (InterruptedException e) {
                 return false;
             }
@@ -210,7 +231,7 @@ public class ConnectActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                finish();
+                // TODO: This is where the remote activity should be started, passing the auth key
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

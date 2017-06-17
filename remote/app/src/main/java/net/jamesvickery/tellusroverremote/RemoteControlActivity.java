@@ -1,6 +1,5 @@
 package net.jamesvickery.tellusroverremote;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,8 +21,7 @@ public class RemoteControlActivity extends AppCompatActivity {
     }
 
     public boolean returnToLoginActivity(){
-        Intent myIntent = new Intent(getApplicationContext(), ConnectActivity.class);
-        startActivityForResult(myIntent, 0);
+        // TODO: Add some stuff here to close connection to Pi
         finish();
         return true;
 
