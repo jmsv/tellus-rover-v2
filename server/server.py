@@ -1,9 +1,11 @@
 from flask import Flask, request
+import shortuuid
 
 app = Flask(__name__)
 
 
 password = 'potato'
+auth_keys = []
 
 
 @app.route('/login', methods=['POST'])
@@ -14,17 +16,20 @@ def login():
         print 'attempt: ' + password_attempt
     except Exception as e:
         if str(e).startswith('400 Bad Request'):
-            return 'No valid password'
+            return 'no password'
         else:
             return e
 
     if password_attempt == password:
-        return 'Correct password', 200  # This should return access key
+        key = shortuuid.uuid()
+        global auth_keys
+        auth_keys.append(key)
+        return key, 200
     else:
-        return 'Invalid password', 401
+        return 'invalid password', 401
 
     # If none of the above is returned (should never happen)
-    return 'Error', 500
+    return 'error', 500
 
 
 def main():
