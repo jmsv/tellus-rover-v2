@@ -1,5 +1,7 @@
 from flask import Flask, request
 import shortuuid
+import motors
+from time import sleep
 
 app = Flask(__name__)
 
@@ -29,7 +31,28 @@ def login():
         return 'invalid password', 401
 
     # If none of the above is returned (should never happen)
-    return 'error', 500
+    return 'error', 500  # Test
+
+
+@app.route('/drive', methods=['POST'])
+def drive():
+    auth_key = ''
+    try:
+        auth_key = request.form['key']
+    except:
+        return 'No key parameter found', 400
+    if auth_key not in auth_keys:
+        return 'Key not valid', 403
+
+    
+    direction = ''
+    try:
+        direction = request.form['direction']
+    except:
+        return 'No direction parameter found', 400
+        
+    motors.drive_in_direction(direction)
+    return '', 200
 
 
 def main():
